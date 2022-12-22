@@ -1,0 +1,10 @@
+# fly.toml file generated for protohackers-vgrigoriu on 2022-12-22T11:43:37+02:00
+
+app = "protohackers-vgrigoriu"
+
+[[services]]
+  internal_port = 12345
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = 12345
