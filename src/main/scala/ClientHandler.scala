@@ -10,9 +10,11 @@ def runService(port: Int, handler: ClientHandler): Unit =
   println(s"Listening on port $port.")
   while true do
     val client = server.accept()
+    println(s"Got client: $client.")
     Future {
       try
         handler.handle(client.getInputStream, client.getOutputStream)
       finally
         client.close()
+        println(s"Closed client $client.")
     }

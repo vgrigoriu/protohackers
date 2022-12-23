@@ -1,7 +1,8 @@
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, ExecutionContext, Future}
+import java.util.concurrent.Executors
+import scala.concurrent.{ExecutionContext, Future}
+import scala.io.StdIn.readLine
 
-given ExecutionContext = ExecutionContext.global
+given ExecutionContext = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(10))
 
 @main def main(): Unit =
   val services: List[ClientHandler] = List(Challenge0)
@@ -9,5 +10,4 @@ given ExecutionContext = ExecutionContext.global
     runService(2000 + i, service)
   })
 
-  // "Wait" for all services to "finish" (which they'll never will).
-  Await.result(Future.sequence(futures), Duration.Inf)
+  readLine()
