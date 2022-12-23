@@ -1,4 +1,6 @@
+import java.io.{InputStream, OutputStream}
 import java.net.{ServerSocket, Socket}
+import scala.collection.mutable.ArrayBuffer
 import scala.concurrent.{ExecutionContext, Future}
 
 given ExecutionContext = ExecutionContext.global
@@ -11,16 +13,16 @@ given ExecutionContext = ExecutionContext.global
     val client = server.accept()
     println(s"... got one!: $client")
     val x = Future {
-      handleClient(client)
+      handleClient(client.getInputStream, client.getOutputStream)
     }
 
-def handleClient(client: Socket): Unit =
-  val input = client.getInputStream
-  val output = client.getOutputStream
+def handleClient(input: InputStream, output: OutputStream): Unit =
   var byte: Int = input.read()
+  val received = ArrayBuffer[Byte]()
   while byte != -1 do
     output.write(byte)
+    received.append(byte.toByte)
     byte = input.read()
-  println(s"Closing client $client")
+  println(s"Closing client after receiving: ${String(received.toArray)}")
   output.close()
   input.close()
