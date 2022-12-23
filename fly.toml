@@ -3,8 +3,8 @@
 app = "protohackers-vgrigoriu"
 
 [[services]]
-  internal_port = 12345
+  internal_port = 2000
   protocol = "tcp"
 
   [[services.ports]]
-    port = 12345
+    port = 2000
