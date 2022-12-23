@@ -25,3 +25,11 @@ class MathSuite extends munit.FunSuite:
       assertEquals(isPrime(n), prime, s"Was expecting $n to be ${if prime then "prime" else "composite"}.")
     )
   }
+
+  test("isPrime works for huge numbers") {
+    Seq(
+      (BigInt("168431685773709445319477572065056157462748249029384856038"), false),
+    ).foreach((n, prime) =>
+      assertEquals(isPrime(n), prime, s"Was expecting $n to be ${if prime then "prime" else "composite"}.")
+    )
+  }
