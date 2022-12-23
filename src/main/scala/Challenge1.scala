@@ -1,5 +1,8 @@
 import java.io.{BufferedReader, PrintWriter, InputStream, InputStreamReader, OutputStream, OutputStreamWriter}
 import java.nio.charset.StandardCharsets.UTF_8
+
+import Math.isPrime
+
 object Challenge1 extends ClientHandler:
   override def handle(input: InputStream, output: OutputStream): Unit =
     val reader = BufferedReader(InputStreamReader(input))
@@ -7,19 +10,15 @@ object Challenge1 extends ClientHandler:
     var line = reader.readLine()
     while line != null do
       println(s"got input: $line")
-      writer.println(getResponse(line))
-      line = reader.readLine()
+      val (stop, response) = getResponse(line)
+      writer.println(response)
+      line = if stop then null else reader.readLine()
 
-  private def getResponse(line: String): String =
+  // FAIL:got a well-formed response to a malformed request: {"method":"isPrime","number":"3032810"}
+  private def getResponse(line: String): (Boolean, String) =
     // {"number":927431,"method":"isPrime"}
-    val n = "-?\\d+".r.findFirstIn(line).map(_.toInt).get
 
-    s"{\"method\":\"isPrime\",\"prime\":${isPrime(n)}}"
-
-  private def isPrime(n: Int): Boolean =
-    if n < 0 then false
-    else if n == 1 then false
-    else if n == 2 then true
-    else if n % 2 == 0 then false
+    if !line.contains("{") then (true, "WRONG!")
     else
-      (3 to math.sqrt(n).toInt by 2).forall(n % _ != 0)
+      val n = "-?\\d+".r.findFirstIn(line).map(_.toInt).get
+      (false, s"{\"method\":\"isPrime\",\"prime\":${isPrime(n)}}")
