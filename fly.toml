@@ -15,3 +15,10 @@ app = "protohackers-vgrigoriu"
 
   [[services.ports]]
     port = 2001
+
+[[services]]
+  internal_port = 2002
+  protocol = "tcp"
+
+[[services.ports]]
+  port = 2002

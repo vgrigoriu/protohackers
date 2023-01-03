@@ -1,5 +1,4 @@
 import java.io.{InputStream, OutputStream}
-import scala.collection.mutable.ArrayBuffer
 
 object Challenge0 extends ClientHandler:
   override def handle(input: InputStream, output: OutputStream): Unit =

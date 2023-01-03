@@ -14,6 +14,10 @@ def runService(port: Int, handler: ClientHandler): Unit =
     Future {
       try
         handler.handle(client.getInputStream, client.getOutputStream)
+      catch
+        case e: Exception =>
+          print("Caught exception: ")
+          e.printStackTrace()
       finally
         client.close()
         println(s"Closed client $client.")
